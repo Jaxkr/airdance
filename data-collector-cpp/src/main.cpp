@@ -35,7 +35,6 @@ struct imu_frame_t {
     float gravZ;
 };
 
-unsigned int stompBuffer = 60;
 uint64_t lastStomp =
     std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 unsigned int stompCounter = 0;
@@ -100,7 +99,7 @@ This will return 30 imu_frames from the left and 30 from the right.
 std::ofstream ofile;
 string filename = "../data/" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) + "-session.txt";
 
-string getBuffer(int direction) {
+void getBuffer(int direction) {
     unsigned int *imu_index;
     imu_frame_t(*imu_buffer)[BUFFER_SIZE];
 
@@ -144,9 +143,16 @@ void joyShockPollCallback(int jcHandle, JOY_SHOCK_STATE state, JOY_SHOCK_STATE l
                           IMU_STATE lastImuState, float deltaTime) {
     MOTION_STATE motion = JslGetMotionState(jcHandle);
     int foot = JslGetControllerType(jcHandle);
-    // cout << "x: " << motion.gravX << endl;
-    // cout << "y: " << motion.gravY << endl;
-    // cout << "z: " << motion.gravZ << endl;
+    if (foot == LEFT_JOYCON) {
+    cout << "x: " << motion.gravX << endl;
+    cout << "y: " << motion.gravY << endl;
+    cout << "z: " << motion.gravZ << endl;
+    }
+    if (foot == RIGHT_JOYCON) {
+    cout << "           x: " << motion.gravX << endl;
+    cout << "           y: " << motion.gravY << endl;
+    cout << "           z: " << motion.gravZ << endl;
+    }
 
     addFrameToIMUBuffer(imuState, motion, foot);
     if (deltaTime > 0.06) {
