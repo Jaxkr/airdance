@@ -21,6 +21,8 @@ def createPoints(data, destination, starting_index):
 def processLine(line):
     left_foot_data = line[:180]
     right_foot_data = line[180:]
+    # Change the magic number here to select a different data index to analyze.
+    # see the C++ code for documentation on this format.
     createPoints(left_foot_data, left_gravX_points, 4)
     
 
