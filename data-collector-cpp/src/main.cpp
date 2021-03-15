@@ -24,6 +24,7 @@ void connectDevices() { int numConnected = JslConnectDevices(); };
 
 void cleanup() { JslDisconnectAndDisposeAll(); }
 
+// USE THIS TO DETERMINE INDEX TO ANALYZE IN THE PYTHON SCRIPT.
 struct imu_frame_t {
     // local acceleration without gravity
     float accelX;
